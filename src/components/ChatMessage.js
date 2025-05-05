@@ -26,7 +26,7 @@ const ChatMessage = ({ message, isBot, isTyping = false }) => {
             <span></span>
             <span></span>
             <span></span>
-          </div>
+        </div>
         ) : (
           <div className="message-text">{message}</div>
         )}

@@ -42,7 +42,7 @@ const Chatbot = () => {
     
     initModel();
   }, []);
-  
+
   // Scroll to bottom of chat when messages update
   useEffect(() => {
     scrollToBottom();
@@ -56,7 +56,7 @@ const Chatbot = () => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-  
+
   const toggleDarkMode = () => {
     setIsDarkMode(prev => {
       const newMode = !prev;
@@ -207,7 +207,7 @@ const Chatbot = () => {
           <ChatMessage 
             key={msg.id} 
             message={msg.text} 
-            isBot={msg.isBot}
+            isBot={msg.isBot} 
             isTyping={msg.isTyping}
           />
         ))}
