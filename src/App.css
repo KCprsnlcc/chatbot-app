@@ -1,9 +1,40 @@
+/* Global styles */
+:root {
+  --primary-color: #5b67ca;
+  --primary-dark: #4c56a9;
+  --text-color: #333;
+  --text-light: #6b7280;
+  --bg-color: #f9fafb;
+  --card-bg: #fff;
+  --border-color: #e5e7eb;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  
+  --dark-bg: #111827;
+  --dark-card-bg: #1f2937;
+  --dark-text: #f3f4f6;
+  --dark-text-light: #9ca3af;
+  --dark-border: #374151;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
 .App {
-  text-align: center;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background-color: #f5f7fa;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .App-logo {
@@ -18,30 +49,67 @@
 }
 
 .App-header {
-  background-color: #2c3e50;
-  padding: 20px;
-  color: white;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
+  text-align: center;
 }
 
 .App-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+  background: linear-gradient(90deg, #5b67ca 0%, #8e44ad 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.App-header p {
+  color: var(--text-light);
+  font-size: 1.1rem;
   margin: 0;
-  font-size: 1.8rem;
+}
+
+body.dark-mode .App-header p {
+  color: var(--dark-text-light);
 }
 
 main {
-  flex: 1;
   display: flex;
   justify-content: center;
-  padding: 0 20px;
+  margin-bottom: 40px;
 }
 
 footer {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #2c3e50;
-  color: white;
+  text-align: center;
+  padding: 16px;
+  color: var(--text-light);
   font-size: 0.9rem;
+  margin-top: 32px;
+}
+
+body.dark-mode footer {
+  color: var(--dark-text-light);
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .App {
+    padding: 16px;
+  }
+  
+  .App-header h1 {
+    font-size: 2rem;
+  }
+  
+  main {
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .App-header h1 {
+    font-size: 1.8rem;
+  }
 }
 
 .App-link {

@@ -1,43 +1,122 @@
-.message {
-  margin: 8px 0;
+.chat-message {
   display: flex;
-  width: 100%;
+  margin: 16px 0;
+  padding: 0;
+  max-width: 85%;
+}
+
+.bot-message {
+  align-self: flex-start;
+}
+
+.user-message {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  margin-left: auto;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  margin: 0 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bot-avatar {
+  background-color: #5b67ca;
+  color: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-avatar {
+  background-color: #8e44ad;
+  color: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .message-content {
-  display: flex;
-  max-width: 80%;
-  border-radius: 12px;
-  padding: 8px 12px;
-  align-items: flex-start;
+  position: relative;
+  padding: 12px 16px;
+  background-color: #f2f3f5;
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  min-width: 80px;
+  max-width: calc(100% - 60px);
 }
 
-.avatar {
-  font-size: 1.5rem;
-  margin-right: 8px;
+.bot-message .message-content {
+  background-color: #f2f3f5;
+  color: #333;
+  border-top-left-radius: 4px;
 }
 
-.text {
-  word-break: break-word;
-}
-
-.text p {
-  margin: 0;
-}
-
-.bot .message-content {
-  background-color: #f0f0f0;
-  margin-right: auto;
-}
-
-.user .message-content {
-  background-color: #0084ff;
+.user-message .message-content {
+  background-color: #5b67ca;
   color: white;
-  margin-left: auto;
-  flex-direction: row-reverse;
+  border-top-right-radius: 4px;
 }
 
-.user .avatar {
-  margin-right: 0;
-  margin-left: 8px;
+.message-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.message-time {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  margin: 0 2px;
+  background-color: #888;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: typing-animation 1.5s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing-animation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 } 

@@ -6,13 +6,14 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>React Chatbot</h1>
+        <h1>AI Chatbot Assistant</h1>
+        <p>Powered by TensorFlow.js</p>
       </header>
       <main>
         <Chatbot />
       </main>
       <footer>
-        <p>Simple React Chatbot - Frontend Only</p>
+        <p>AI Chatbot with Intent Classification - Client-Side ML</p>
       </footer>
     </div>
   );
