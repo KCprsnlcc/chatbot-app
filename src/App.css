@@ -124,3 +124,87 @@ body.dark-mode footer {
     transform: rotate(360deg);
   }
 }
+
+/* App loading state */
+.App-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
+}
+
+body.dark-mode .App-loading {
+  background-color: var(--dark-bg);
+}
+
+.App-loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 32px;
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+.App-loading-content h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #5b67ca 0%, #8e44ad 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.App-loading-content p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-light);
+  position: relative;
+}
+
+body.dark-mode .App-loading-content p {
+  color: var(--dark-text-light);
+}
+
+.App-loading-content p::after {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: currentColor;
+  margin-left: 4px;
+  animation: loadingDots 1.5s infinite;
+}
+
+@keyframes loadingDots {
+  0%, 100% {
+    box-shadow: 4px 0 0 -2px currentColor, 
+                12px 0 0 -2px currentColor;
+  }
+  33% {
+    box-shadow: 4px 0 0 currentColor, 
+                12px 0 0 -2px currentColor;
+  }
+  66% {
+    box-shadow: 4px 0 0 currentColor, 
+                12px 0 0 currentColor;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

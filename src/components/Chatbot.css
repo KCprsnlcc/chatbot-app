@@ -29,6 +29,12 @@
   border-top-right-radius: 16px;
 }
 
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .chatbot-header h2 {
   margin: 0;
   font-size: 18px;

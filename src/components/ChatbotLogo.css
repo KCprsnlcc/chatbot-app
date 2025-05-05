@@ -1,0 +1,185 @@
+.chatbot-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatbot-logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Base styles */
+.head {
+  fill: #5b67ca;
+  stroke: none;
+}
+
+.antenna {
+  stroke: #5b67ca;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.antenna-dot {
+  fill: #5b67ca;
+}
+
+.eye {
+  fill: white;
+  stroke: none;
+}
+
+.mouth {
+  fill: white;
+  stroke: none;
+}
+
+.neck {
+  fill: #4c56a9;
+  stroke: none;
+}
+
+.body {
+  fill: #5b67ca;
+  stroke: none;
+}
+
+.light {
+  fill: white;
+}
+
+.bubble {
+  fill: white;
+  opacity: 0.7;
+}
+
+.wave {
+  stroke: white;
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+/* Dark mode styles */
+.dark-theme .chatbot-logo .eye,
+.dark-theme .chatbot-logo .mouth,
+.dark-theme .chatbot-logo .light,
+.dark-theme .chatbot-logo .bubble {
+  fill: #f3f4f6;
+}
+
+.dark-theme .chatbot-logo .wave {
+  stroke: #f3f4f6;
+}
+
+/* Animations */
+.animated .left-eye,
+.animated .right-eye {
+  animation: blink 3s infinite;
+}
+
+.animated .right-eye {
+  animation-delay: 0.3s;
+}
+
+.animated .light-1 {
+  animation: pulse 1s infinite;
+}
+
+.animated .light-2 {
+  animation: pulse 1s infinite;
+  animation-delay: 0.3s;
+}
+
+.animated .light-3 {
+  animation: pulse 1s infinite;
+  animation-delay: 0.6s;
+}
+
+.animated .bubble {
+  animation: fade 3s infinite;
+  transform-origin: center;
+}
+
+.animated .bubble-1 {
+  animation-delay: 0s;
+}
+
+.animated .bubble-2 {
+  animation-delay: 1s;
+}
+
+.animated .bubble-3 {
+  animation-delay: 2s;
+}
+
+.animated .wave {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: dash 2s infinite linear;
+}
+
+.animated .wave-2 {
+  animation-delay: 1s;
+}
+
+.animated .left-antenna {
+  animation: wiggle 3s infinite;
+}
+
+.animated .right-antenna {
+  animation: wiggle 3s infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes blink {
+  0%, 95%, 100% {
+    transform: scaleY(1);
+  }
+  97% {
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    r: 2;
+  }
+  50% {
+    opacity: 1;
+    r: 3;
+  }
+}
+
+@keyframes fade {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+    transform-origin: bottom;
+  }
+  25% {
+    transform: rotate(-5deg);
+    transform-origin: bottom;
+  }
+  75% {
+    transform: rotate(5deg);
+    transform-origin: bottom;
+  }
+} 

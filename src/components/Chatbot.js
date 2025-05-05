@@ -4,6 +4,7 @@ import './Chatbot.css';
 import { loadModel, predictIntent } from '../model/loadModel';
 import { vectorizeText, getIntentLabel } from '../model/tokenizer';
 import { getResponse } from '../model/responses';
+import ChatbotLogo from './ChatbotLogo';
 
 const Chatbot = () => {
   // State for chat messages
@@ -164,7 +165,10 @@ const Chatbot = () => {
   return (
     <div className={`chatbot-container ${isDarkMode ? 'dark-theme' : ''}`}>
       <div className="chatbot-header">
-        <h2>AI Assistant</h2>
+        <div className="header-title">
+          <ChatbotLogo size={32} animated={true} />
+          <h2>AI Assistant</h2>
+        </div>
         <div className="header-actions">
           <button 
             onClick={clearChat} 
