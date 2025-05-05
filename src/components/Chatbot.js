@@ -71,6 +71,20 @@ const Chatbot = () => {
     ]);
   };
   
+  // Add fallback responses when the model isn't working
+  const fallbackResponses = [
+    "I understood that you said: '{input}'. How can I help with that?",
+    "You mentioned '{input}'. Could you tell me more?",
+    "I'm processing '{input}'. What specifically would you like to know?",
+    "I see you're asking about '{input}'. Let me try to assist.",
+    "Thanks for saying '{input}'. How else can I help you today?"
+  ];
+
+  const getFallbackResponse = (input) => {
+    const randomIndex = Math.floor(Math.random() * fallbackResponses.length);
+    return fallbackResponses[randomIndex].replace('{input}', input);
+  };
+
   const processBotResponse = async (userInput) => {
     // Show typing indicator
     setIsTyping(true);
@@ -83,15 +97,24 @@ const Chatbot = () => {
       let response;
       
       if (modelLoaded && model) {
-        // Process input with the ML model
-        const inputVector = vectorizeText(userInput);
-        const prediction = await predictIntent(model, inputVector);
-        const intent = getIntentLabel(prediction);
-        response = getResponse(intent);
+        try {
+          // Process input with the ML model
+          const inputVector = vectorizeText(userInput);
+          const prediction = await predictIntent(model, inputVector);
+          const intent = getIntentLabel(prediction);
+          response = getResponse(intent);
+        } catch (modelError) {
+          console.error('Error in model prediction:', modelError);
+          // Use fallback response based on user input
+          response = getFallbackResponse(userInput);
+        }
       } else {
         // Fallback to simple response if model isn't loaded
-        response = "I'm still loading my capabilities. Please try again in a moment.";
-        if (modelError) response = modelError;
+        if (modelError) {
+          response = modelError;
+        } else {
+          response = "I'm still loading my capabilities. Please try again in a moment.";
+        }
       }
       
       // Update the typing message with the actual response
@@ -199,7 +222,7 @@ const Chatbot = () => {
         />
         <button 
           type="submit" 
-          disabled={!modelLoaded && !modelError || inputText.trim() === ''}
+          disabled={(!modelLoaded && !modelError) || inputText.trim() === ''}
           className="send-button"
           aria-label="Send message"
         >
