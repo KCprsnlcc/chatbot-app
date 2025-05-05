@@ -1,0 +1,43 @@
+.message {
+  margin: 8px 0;
+  display: flex;
+  width: 100%;
+}
+
+.message-content {
+  display: flex;
+  max-width: 80%;
+  border-radius: 12px;
+  padding: 8px 12px;
+  align-items: flex-start;
+}
+
+.avatar {
+  font-size: 1.5rem;
+  margin-right: 8px;
+}
+
+.text {
+  word-break: break-word;
+}
+
+.text p {
+  margin: 0;
+}
+
+.bot .message-content {
+  background-color: #f0f0f0;
+  margin-right: auto;
+}
+
+.user .message-content {
+  background-color: #0084ff;
+  color: white;
+  margin-left: auto;
+  flex-direction: row-reverse;
+}
+
+.user .avatar {
+  margin-right: 0;
+  margin-left: 8px;
+} 
