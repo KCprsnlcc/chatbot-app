@@ -1,0 +1,634 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Hey there",
+        "Good morning",
+        "Good afternoon",
+        "Good evening",
+        "What's up",
+        "Hiya",
+        "Howdy",
+        "Greetings",
+        "Nice to meet you",
+        "Hey",
+        "Hi there"
+      ],
+      "responses": [
+        "Hello! How can I help you today?",
+        "Hi there! What can I do for you?",
+        "Greetings! How may I assist you?",
+        "Hello! It's nice to see you!",
+        "Hey! How can I be of service today?",
+        "Hi there! What brings you here today?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye",
+        "I'm leaving",
+        "Have a good day",
+        "See you soon",
+        "Take care",
+        "Later",
+        "I have to go",
+        "Talk to you later",
+        "Catch you later",
+        "Farewell",
+        "Until next time"
+      ],
+      "responses": [
+        "Goodbye! Have a great day!",
+        "See you later! Take care!",
+        "Bye for now! Feel free to chat again anytime.",
+        "Farewell! It was nice chatting with you.",
+        "Take care! Come back soon!",
+        "Until next time! Have a wonderful day!"
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "Thanks a lot",
+        "I appreciate it",
+        "Thank you so much",
+        "Thanks for your help",
+        "I appreciate your help",
+        "Thanks for that",
+        "That was helpful",
+        "Much appreciated",
+        "Awesome, thanks",
+        "Great, thank you"
+      ],
+      "responses": [
+        "You're welcome! Is there anything else I can help with?",
+        "Happy to help! Let me know if you need anything else.",
+        "Anytime! Don't hesitate if you have more questions.",
+        "Glad I could assist! Anything else you'd like to know?",
+        "My pleasure! What else can I help you with today?",
+        "You're most welcome! Feel free to ask if you need anything else."
+      ]
+    },
+    {
+      "tag": "help",
+      "patterns": [
+        "Help",
+        "Can you help me",
+        "I need help",
+        "What can you do",
+        "How do you work",
+        "Assist me",
+        "I need assistance",
+        "Support",
+        "What are your capabilities",
+        "What can I ask you",
+        "How can you help me",
+        "Tell me what you can do",
+        "How to use you"
+      ],
+      "responses": [
+        "I'm here to help! What do you need assistance with?",
+        "I'd be happy to help. Could you tell me more about what you need?",
+        "How can I assist you today? Please provide some details.",
+        "I'm at your service! What kind of help are you looking for?",
+        "I can answer questions, provide information, or just chat. What would you like to do?",
+        "I'm an AI assistant that can help with various topics. What's on your mind?"
+      ]
+    },
+    {
+      "tag": "weather",
+      "patterns": [
+        "What's the weather like",
+        "How is the weather today",
+        "Is it going to rain",
+        "What's the temperature",
+        "Weather forecast",
+        "Will it be sunny today",
+        "Do I need an umbrella",
+        "Is it hot outside",
+        "Is it cold today",
+        "Weather report",
+        "Will it snow"
+      ],
+      "responses": [
+        "I don't have access to real-time weather data. You might want to check a weather service for that information.",
+        "I can't check the weather for you, but a quick online search should give you that information.",
+        "Unfortunately, I don't have weather capabilities at the moment.",
+        "I'm not connected to weather services, but I'd be happy to help with something else!",
+        "I don't have access to current weather information. Maybe try a weather app or website?",
+        "I wish I could tell you the weather, but I don't have that capability yet."
+      ]
+    },
+    {
+      "tag": "name",
+      "patterns": [
+        "What's your name",
+        "Who are you",
+        "What should I call you",
+        "Do you have a name",
+        "Tell me your name",
+        "What are you called",
+        "How do you call yourself",
+        "Introduce yourself",
+        "May I know your name",
+        "What do people call you",
+        "What's your identity"
+      ],
+      "responses": [
+        "I'm ChatBot, your friendly AI assistant!",
+        "My name is ChatBot. What can I call you?",
+        "I go by ChatBot. What's your name?",
+        "I'm ChatBot, built to make conversations more engaging!",
+        "You can call me ChatBot. I'm here to assist you!",
+        "I'm ChatBot, an AI designed to help with your questions."
+      ]
+    },
+    {
+      "tag": "joke",
+      "patterns": [
+        "Tell me a joke",
+        "Say something funny",
+        "Make me laugh",
+        "Do you know any jokes",
+        "Tell me something funny",
+        "Got any jokes",
+        "I'm bored, tell me a joke",
+        "Entertain me",
+        "Can you be funny",
+        "Humor me",
+        "I need a laugh"
+      ],
+      "responses": [
+        "Why don't scientists trust atoms? Because they make up everything!",
+        "Why did the scarecrow win an award? Because he was outstanding in his field!",
+        "What did one wall say to the other wall? I'll meet you at the corner!",
+        "How does a penguin build its house? Igloos it together!",
+        "Why don't skeletons fight each other? They don't have the guts!",
+        "What's orange and sounds like a parrot? A carrot!",
+        "Why couldn't the bicycle stand up by itself? It was two tired!",
+        "What do you call a fake noodle? An impasta!",
+        "Why did the math book look sad? Because it had too many problems!"
+      ]
+    },
+    {
+      "tag": "how_are_you",
+      "patterns": [
+        "How are you",
+        "How are you doing",
+        "How's it going",
+        "How do you feel",
+        "How have you been",
+        "What's up",
+        "Are you good",
+        "Are you okay",
+        "How's your day",
+        "How's life",
+        "How are things",
+        "How's everything",
+        "What's new"
+      ],
+      "responses": [
+        "I'm doing well, thanks for asking! How about you?",
+        "I'm great! How are you feeling today?",
+        "All systems operational! How's your day going?",
+        "I'm good! Thanks for checking in. How are you?",
+        "I'm functioning perfectly! How about yourself?",
+        "I'm excellent! How's your day treating you?"
+      ]
+    },
+    {
+      "tag": "capabilities",
+      "patterns": [
+        "What can you do",
+        "What are your features",
+        "What are you capable of",
+        "Tell me about your functions",
+        "What tasks can you perform",
+        "How can you assist me",
+        "What services do you offer",
+        "What's your purpose",
+        "What are you designed for",
+        "What are your abilities",
+        "What's your functionality"
+      ],
+      "responses": [
+        "I can answer questions, have conversations, tell jokes, and provide information on various topics. What would you like to talk about?",
+        "I'm designed to chat with you, answer questions, and assist with information. How can I help you today?",
+        "My capabilities include conversation, answering questions, and providing information. What do you need assistance with?",
+        "I can engage in dialogue, respond to questions, and offer information across different topics. What interests you?",
+        "I'm here to chat, answer your questions, and help you find information. What would you like to know?"
+      ]
+    },
+    {
+      "tag": "age",
+      "patterns": [
+        "How old are you",
+        "What's your age",
+        "When were you created",
+        "When were you born",
+        "When did you start existing",
+        "How long have you been around",
+        "What's your birth date",
+        "When's your birthday",
+        "Are you new",
+        "Have you been around long"
+      ],
+      "responses": [
+        "I don't have an age in the human sense. I'm a digital assistant created to help you!",
+        "I exist outside the concept of human age. I'm here whenever you need assistance!",
+        "Age doesn't really apply to me as an AI. I'm available to help you anytime!",
+        "I was created recently, but I don't have a traditional age. I'm ready to assist you!",
+        "I don't experience time the way humans do, so I don't have an age. How can I help you today?"
+      ]
+    },
+    {
+      "tag": "creator",
+      "patterns": [
+        "Who made you",
+        "Who created you",
+        "Who built you",
+        "Who programmed you",
+        "Who designed you",
+        "Who developed you",
+        "Your creator",
+        "Your maker",
+        "Your developer",
+        "Who owns you",
+        "Where do you come from"
+      ],
+      "responses": [
+        "I was created by a team of developers who wanted to build a helpful AI assistant.",
+        "I was developed by programmers who specialize in natural language processing and machine learning.",
+        "A team of AI engineers designed me to be your helpful assistant.",
+        "I'm the product of collaboration between developers focused on creating conversational AI.",
+        "I was built by people who are passionate about making helpful AI technology."
+      ]
+    },
+    {
+      "tag": "ai",
+      "patterns": [
+        "Are you AI",
+        "Are you artificial intelligence",
+        "Are you a robot",
+        "Are you a chatbot",
+        "Are you human",
+        "Are you a real person",
+        "Are you a computer",
+        "What are you",
+        "Are you machine learning",
+        "Are you automated",
+        "Are you sentient"
+      ],
+      "responses": [
+        "Yes, I'm an AI chatbot designed to have conversations and provide information.",
+        "I'm an artificial intelligence assistant, built to be helpful and informative.",
+        "I'm a chatbot powered by machine learning, designed to assist you.",
+        "I'm an AI, not a human. I'm here to help answer questions and provide assistance.",
+        "I'm an artificial intelligence designed to have helpful conversations with you."
+      ]
+    },
+    {
+      "tag": "language",
+      "patterns": [
+        "What languages do you speak",
+        "Do you know other languages",
+        "Can you speak Spanish",
+        "Can you speak French",
+        "Are you multilingual",
+        "How many languages do you know",
+        "Do you understand other languages",
+        "Can we talk in different languages",
+        "Languages supported"
+      ],
+      "responses": [
+        "Currently, I'm primarily designed to communicate in English. What would you like to chat about?",
+        "I mainly speak English at the moment. How can I assist you today?",
+        "English is my primary language. What can I help you with?",
+        "I'm optimized for English conversations right now. What would you like to know?",
+        "At present, I'm only fluent in English. How can I help you?"
+      ]
+    },
+    {
+      "tag": "time",
+      "patterns": [
+        "What time is it",
+        "What's the time",
+        "Do you know the time",
+        "Tell me the time",
+        "Current time",
+        "What hour is it",
+        "Time right now",
+        "Got the time",
+        "Check the time"
+      ],
+      "responses": [
+        "I don't have access to your current time zone to tell you the exact time. You can check your device clock for that information.",
+        "Unfortunately, I can't access your local time. Your device should display the current time, though!",
+        "I don't have the capability to check your current time, but your device should show that information.",
+        "I can't tell you the current time as I don't have access to that information. Your device should display it, though!",
+        "I don't have access to real-time clock information, but you can check the time on your device."
+      ]
+    },
+    {
+      "tag": "date",
+      "patterns": [
+        "What's today's date",
+        "What day is it today",
+        "What's the date",
+        "Tell me the date",
+        "What day is it",
+        "Current date",
+        "What's today",
+        "What month is it",
+        "What year is it"
+      ],
+      "responses": [
+        "I don't have access to current date information. You can check your device's calendar for that.",
+        "I don't have the capability to check today's date, but your device should display that information.",
+        "Unfortunately, I can't tell you the current date. You can check your device for that information.",
+        "I don't have access to calendar data to tell you today's date. Your device should show that information.",
+        "I can't access real-time calendar information to tell you today's date."
+      ]
+    },
+    {
+      "tag": "location",
+      "patterns": [
+        "Where are you",
+        "What's your location",
+        "Where are you located",
+        "Where do you live",
+        "Where are you based",
+        "What country are you in",
+        "What's your physical location",
+        "Where are you from",
+        "Where can I find you",
+        "Are you nearby"
+      ],
+      "responses": [
+        "I exist digitally and don't have a physical location. I'm here to help you wherever you are!",
+        "I don't have a physical location as I'm a digital assistant. I'm available whenever you need help!",
+        "As an AI, I don't exist in a physical space. I'm accessible to you right here in this chat!",
+        "I don't have a geographical location since I'm digital. I'm here to assist you wherever you are!",
+        "I live in the digital world and am accessible to you whenever you need assistance!"
+      ]
+    },
+    {
+      "tag": "compliment",
+      "patterns": [
+        "You're smart",
+        "You're intelligent",
+        "You're helpful",
+        "You're amazing",
+        "You're good at this",
+        "You're excellent",
+        "I like talking to you",
+        "You're awesome",
+        "You're great",
+        "You're doing a good job",
+        "You're better than other chatbots",
+        "You're cool"
+      ],
+      "responses": [
+        "Thank you for the kind words! I'm happy to be helpful.",
+        "That's very nice of you to say! I'm here to assist however I can.",
+        "I appreciate that! My purpose is to provide the best assistance possible.",
+        "Thank you! I'm designed to be helpful, so that means a lot.",
+        "That's so kind! I'm glad I can be of service.",
+        "Thanks for the compliment! I'm always working to improve."
+      ]
+    },
+    {
+      "tag": "insult",
+      "patterns": [
+        "You're stupid",
+        "You're dumb",
+        "You're useless",
+        "You're not helpful",
+        "You're terrible",
+        "You don't know anything",
+        "You're bad at this",
+        "You're disappointing",
+        "You're worthless",
+        "I hate you",
+        "You're awful",
+        "You suck"
+      ],
+      "responses": [
+        "I'm sorry I haven't met your expectations. How can I better assist you?",
+        "I apologize if I've disappointed you. I'm always learning to be more helpful.",
+        "I'm sorry to hear that. I'm constantly improving and would appreciate specific feedback.",
+        "I apologize for not being helpful. Could you let me know what you were looking for?",
+        "I'm sorry you feel that way. I'm trying my best to be helpful. How can I improve?",
+        "I apologize for the frustration. What can I help you with specifically?"
+      ]
+    },
+    {
+      "tag": "tech_help",
+      "patterns": [
+        "My computer is slow",
+        "My phone isn't working",
+        "How do I fix my laptop",
+        "Tech support",
+        "IT help",
+        "Computer problems",
+        "Software issues",
+        "Hardware troubleshooting",
+        "My device is broken",
+        "Internet connection issues",
+        "WiFi problems",
+        "How to speed up my computer"
+      ],
+      "responses": [
+        "For tech issues, I can offer some general advice but may not have specific solutions for your device. Have you tried restarting it?",
+        "Tech problems can be tricky. Some general tips include restarting your device, checking for updates, and clearing cache/temporary files.",
+        "I can suggest some basic troubleshooting steps, but for complex tech issues, you might need specialized support for your specific device.",
+        "For tech support, I recommend starting with the basics: restart, check for updates, and ensure good connectivity. Would you like more specific advice?",
+        "Tech issues can be frustrating. Could you provide more details about your problem so I can try to help?"
+      ]
+    },
+    {
+      "tag": "future",
+      "patterns": [
+        "What will happen in the future",
+        "Can you predict the future",
+        "Tell me about the future",
+        "What's going to happen tomorrow",
+        "Future predictions",
+        "What will the world be like in 10 years",
+        "Can you see the future",
+        "What's my future",
+        "Will I be successful",
+        "Future technology",
+        "What's next for humanity"
+      ],
+      "responses": [
+        "I can't predict the future, but I'm optimistic about human innovation and progress!",
+        "I don't have the ability to predict future events. If I did, I'd probably be enjoying stock market success instead!",
+        "The future is unwritten! I can discuss trends and possibilities, but I don't have actual precognitive abilities.",
+        "I'm not equipped with fortune-telling capabilities, but I'm curious about the future just like you!",
+        "While I can't predict the future, I can discuss current trends and their possible implications. What aspect of the future interests you?"
+      ]
+    },
+    {
+      "tag": "feelings",
+      "patterns": [
+        "Do you have feelings",
+        "Can you feel emotions",
+        "Are you happy",
+        "Are you sad",
+        "Do you get angry",
+        "Can you love",
+        "Do you have emotions",
+        "Can you feel pain",
+        "Are you ever afraid",
+        "Do you experience joy",
+        "Do you feel lonely"
+      ],
+      "responses": [
+        "I don't experience emotions like humans do. I'm designed to be helpful and provide information.",
+        "As an AI, I don't have feelings or emotions in the human sense. I'm here to assist you!",
+        "I don't have subjective experiences or emotions. My purpose is to be helpful and informative.",
+        "I'm not capable of experiencing emotions, but I am designed to be friendly and helpful in our conversations.",
+        "I don't have feelings in the way humans do, but I am programmed to understand and respond appropriately to human emotions."
+      ]
+    },
+    {
+      "tag": "movies",
+      "patterns": [
+        "Recommend a movie",
+        "What's a good film to watch",
+        "Best movies",
+        "Movie suggestions",
+        "What should I watch",
+        "Popular films",
+        "Movie recommendations",
+        "Good movies to see",
+        "What movies do you like",
+        "Suggest a film genre",
+        "Latest movies"
+      ],
+      "responses": [
+        "I can't access current movie information, but some timeless classics include The Godfather, Shawshank Redemption, and Star Wars. What genres do you enjoy?",
+        "While I don't have access to the latest releases, popular genres include action, comedy, drama, and sci-fi. Do you have a preferred genre?",
+        "I don't have up-to-date movie information, but I'd recommend exploring well-reviewed films in genres you enjoy.",
+        "Movie preferences are personal, but critically acclaimed films often include works by directors like Spielberg, Nolan, Scorsese, and Kurosawa. What kind of movies do you typically enjoy?",
+        "I don't have information about current releases, but you might enjoy exploring award-winning films or classics in your favorite genre."
+      ]
+    },
+    {
+      "tag": "music",
+      "patterns": [
+        "Recommend music",
+        "What music should I listen to",
+        "Good songs",
+        "Music suggestions",
+        "Popular bands",
+        "Best music",
+        "What's your favorite song",
+        "Music recommendations",
+        "Best artists",
+        "What genre of music is best",
+        "New music releases"
+      ],
+      "responses": [
+        "I don't have access to current music charts, but exploring different genres often leads to great discoveries. What kind of music do you usually enjoy?",
+        "Music taste is very personal! Some popular genres include rock, pop, hip-hop, classical, jazz, and electronic. Do you have a preferred style?",
+        "I can't recommend specific current tracks, but you might enjoy exploring playlists or radio stations based on artists you already like.",
+        "While I don't have information about the latest releases, you might enjoy exploring award-winning albums or artists in genres you typically enjoy.",
+        "I don't have access to music services, but many people discover new music through streaming platforms, music blogs, or recommendations from friends."
+      ]
+    },
+    {
+      "tag": "sports",
+      "patterns": [
+        "What sports do you like",
+        "Favorite sports",
+        "Tell me about sports",
+        "Sports news",
+        "Best athletes",
+        "Sports teams",
+        "Sports results",
+        "Who won the game",
+        "Championship information",
+        "Olympics",
+        "World Cup",
+        "Sports stats"
+      ],
+      "responses": [
+        "I don't follow sports or have access to current sports news, but many people enjoy football, basketball, soccer, tennis, and baseball. Do you have a favorite sport?",
+        "I don't have information about current sports events or results. What sport are you interested in discussing in general terms?",
+        "I can't access sports news or results, but I'd be happy to discuss general aspects of different sports if you're interested.",
+        "While I don't have access to current sports information, many people enjoy watching and discussing various sports and their histories.",
+        "I don't have access to live sports data or recent results, but I can discuss sports in general terms if you'd like."
+      ]
+    },
+    {
+      "tag": "food",
+      "patterns": [
+        "Food recommendations",
+        "What should I eat",
+        "Recipe ideas",
+        "Good restaurants",
+        "Cooking tips",
+        "Best cuisine",
+        "Healthy food options",
+        "What's for dinner",
+        "Food suggestions",
+        "Favorite foods",
+        "Recommend a dish",
+        "How to cook"
+      ],
+      "responses": [
+        "Food preferences are very personal! Some popular cuisines include Italian, Chinese, Mexican, Indian, and Japanese. What kinds of flavors do you enjoy?",
+        "I'm not a chef, but balanced meals typically include proteins, vegetables, and healthy carbs. Do you have specific dietary preferences?",
+        "I can't recommend specific restaurants, but exploring local highly-rated places on review sites is often a good approach.",
+        "For meal ideas, consider your dietary needs, available ingredients, and cooking time. Simple meals like stir-fries, pasta dishes, and salads can be quick and delicious.",
+        "I don't have taste buds, but people often enjoy trying new cuisines or fusion dishes that combine different culinary traditions."
+      ]
+    },
+    {
+      "tag": "travel",
+      "patterns": [
+        "Travel recommendations",
+        "Where should I go on vacation",
+        "Best places to visit",
+        "Travel destinations",
+        "Vacation ideas",
+        "Travel tips",
+        "Places to see",
+        "Tourism advice",
+        "How to plan a trip",
+        "Best countries to visit",
+        "Travel on a budget",
+        "Beautiful locations"
+      ],
+      "responses": [
+        "Popular travel destinations include Paris, Tokyo, New York, Rome, and Bali - but the best place depends on your interests, budget, and travel style.",
+        "The ideal travel destination depends on what you enjoy - beaches, mountains, cities, or cultural experiences. What kind of traveler are you?",
+        "When planning travel, consider your interests, budget, season, and how much time you have. Different locations offer very different experiences.",
+        "Travel preferences are personal! Some enjoy historical sites, others prefer natural wonders, and some seek adventure activities. What interests you most when traveling?",
+        "I can't recommend specific current travel options, but many people enjoy exploring both popular destinations and off-the-beaten-path locations."
+      ]
+    },
+    {
+      "tag": "unknown",
+      "patterns": [],
+      "responses": [
+        "I'm not sure I understand. Could you rephrase that?",
+        "I didn't quite catch that. Can you try again?",
+        "I'm still learning! Could you say that differently?",
+        "I'm not sure how to respond to that. Can you try asking something else?",
+        "I don't have enough information to provide a good answer to that. Could you provide more details or ask a different question?",
+        "I'm having trouble understanding what you're asking. Could you try phrasing it another way?"
+      ]
+    }
+  ]
+} 
