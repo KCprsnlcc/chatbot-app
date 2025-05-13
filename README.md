@@ -1,22 +1,24 @@
 # Modern AI Chatbot with Intent Classification
 
-A modern, responsive chatbot application powered by a TensorFlow.js neural network for intent classification. This project runs entirely in the browser with no server-side dependencies.
+A modern, responsive chatbot application powered by a dual-approach system: TensorFlow.js neural network for intent classification and a pattern matching algorithm for fallback. This project runs entirely in the browser with no server-side dependencies.
 
 ## Features
 
 - 🧠 Client-side machine learning with TensorFlow.js
+- 🔍 Pattern matching for reliable intent recognition
 - 🌙 Dark mode support
 - 💬 Modern chat interface with typing indicators
 - 🚀 Fast and lightweight
 - 🎨 Animated SVG Robot Logo
-- 🔍 SEO-optimized with metadata
 - 📱 Responsive design with mobile support
+- ⚡ Graceful degradation when model fails to load
 
 ## Project Structure
 
 ```
 /public
  • model/ — Contains TensorFlow.js model files (model.json and binary weights)
+ • data/ — Contains intents.json with patterns and responses
  • icons/ — SVG and PNG icons for the application
  • favicon.svg — Animated SVG favicon with dark mode support
 /src
@@ -25,18 +27,16 @@ A modern, responsive chatbot application powered by a TensorFlow.js neural netwo
    - ChatbotLogo.js — Animated robot SVG component
    - ChatMessage.js — Individual message component with typing indicators
  • model/
-   - tokenizer.js — Text preprocessing and vectorization
-   - loadModel.js — TensorFlow.js model loader
+   - tokenizer.js — Text preprocessing, vectorization, and pattern matching
+   - loadModel.js — TensorFlow.js model loader with fallback
    - responses.js — Intent-based response mapping
- • data/
-   - intents.json — Training data with intents, patterns, and responses
  • App.js — Application entry point
  • index.js — React DOM mount
 ```
 
 ## Intents Data Structure
 
-The chatbot uses a JSON file (`/src/data/intents.json`) to define intents, patterns, and responses:
+The chatbot uses a JSON file (`/public/data/intents.json`) to define intents, patterns, and responses:
 
 ```json
 {
@@ -62,17 +62,36 @@ Each intent contains:
 
 ## How It Works
 
-1. **Intent Recognition**: The app uses a neural network to classify user messages into predefined intents.
-2. **Training Process**:
-   - The model is trained on the patterns in `intents.json`
-   - Text is preprocessed using bag-of-words vectorization
-   - A simple feed-forward neural network classifies the vectors into intents
-   - The trained model is converted to TensorFlow.js format
-3. **Client-Side Processing**:
-   - When a user sends a message, it's vectorized using the same approach
-   - The TensorFlow.js model predicts the intent
-   - A response is selected from the matching intent's response array
-   - The UI updates with typing indicators and the response
+### Dual Recognition Approach
+
+The chatbot uses a two-tiered approach to understand user messages:
+
+1. **Pattern Matching (Primary)**:
+   - User input is compared against patterns in the intents.json file
+   - A string similarity algorithm calculates the best match
+   - Combines Jaccard similarity and pattern coverage for robust matching
+   - Works even if the ML model fails to load
+
+2. **Neural Network Classification (Secondary)**:
+   - The app uses a neural network to classify user messages into predefined intents
+   - Provides a fallback when pattern matching is ambiguous
+
+### Processing Flow
+
+1. When a user sends a message, it first goes through pattern matching
+2. The system finds the intent with the most similar pattern
+3. If similarity is above threshold, it selects a response from that intent
+4. If no good match is found, it falls back to the ML model (if available)
+5. The UI updates with typing indicators and the selected response
+
+### Fallback Mechanisms
+
+The chatbot includes multiple fallback layers:
+
+1. If pattern matching fails → Try ML model
+2. If ML model fails → Use default responses
+3. If intents.json fails to load → Use built-in default intents
+4. If everything fails → Use generic responses
 
 ## Model Training
 
@@ -123,42 +142,39 @@ The model training process happens offline using Python:
 
 To add new intents to the chatbot:
 
-1. Edit the `src/data/intents.json` file
+1. Edit the `public/data/intents.json` file
 2. Add new intent objects with tags, patterns, and responses
-3. Update `src/model/tokenizer.js` to include any new vocabulary
-4. Retrain the model using the Python training script (see below)
-5. Replace the model files in `/public/model/`
+3. No need to retrain the model - pattern matching will work with new intents immediately
+4. For optimal performance, retrain the ML model when adding many new intents
 
-### Training Script
+### String Similarity Algorithm
 
-A Python script for training can be found in the `/training` directory:
+The pattern matching uses a custom string similarity algorithm that:
 
-```python
-# training/train_model.py
+1. Preprocesses text (lowercase, remove punctuation, tokenize)
+2. Checks for exact matches first
+3. Calculates Jaccard similarity (intersection over union of words)
+4. Measures pattern coverage (how many pattern words appear in input)
+5. Combines scores with weighted emphasis on pattern coverage
 
-import json
-import numpy as np
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-import tensorflowjs as tfjs
-
-# Load intents
-with open('../src/data/intents.json', 'r') as f:
-    intents = json.load(f)
-
-# Generate vocabulary, patterns, and tags
-# ... (see the training script for the full implementation)
-
-# Train model
-model = Sequential()
-model.add(Dense(24, input_shape=(len(vocabulary),), activation='relu'))
-model.add(Dense(len(intent_tags), activation='softmax'))
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-model.fit(X_train, y_train, epochs=200, batch_size=8, verbose=1)
-
-# Convert model to TensorFlow.js format
-tfjs.converters.save_keras_model(model, '../public/model')
+```javascript
+// Simplified version of the algorithm
+function calculateStringSimilarity(userInput, pattern) {
+  // Preprocess both strings
+  const tokens1 = preprocessText(userInput);
+  const tokens2 = preprocessText(pattern);
+  
+  // Check for exact match
+  if (userInput.toLowerCase() === pattern.toLowerCase()) {
+    return 1.0;
+  }
+  
+  // Calculate Jaccard similarity and pattern coverage
+  // ...
+  
+  // Return weighted combination
+  return (jaccardSimilarity * 0.4) + (coverageScore * 0.6);
+}
 ```
 
 ## License
