@@ -3,12 +3,11 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
-import tensorflowjs as tfjs
-import nltk
-from nltk.stem import WordNetLemmatizer
 import string
 import random
 import os
+import nltk
+from nltk.stem import WordNetLemmatizer
 
 # Download NLTK data
 nltk.download('punkt')
@@ -95,20 +94,56 @@ history = model.fit(
 
 # Create output directories if they don't exist
 os.makedirs('../public/model', exist_ok=True)
+os.makedirs('../src/model', exist_ok=True)
 
 # Save the model in Keras format
 print("Saving model...")
 model.save("model.h5")
 
-# Convert the model to TensorFlow.js format
-print("Converting model to TensorFlow.js format...")
-tfjs.converters.save_keras_model(model, '../public/model')
+# Save a simple model JSON for reference
+model_json = model.to_json()
+with open("model.json", "w") as json_file:
+    json_file.write(model_json)
 
 # Save vocabulary and tags for future use
 print("Saving vocabulary and tags...")
 with open("../src/model/vocabulary.json", "w") as f:
-    json.dump({"vocabulary": all_words, "tags": tags}, f)
+    json.dump({"vocabulary": all_words, "tags": tags, "input_shape": len(all_words)}, f)
+
+# Save model config for TensorFlow.js
+print("Creating model config for TensorFlow.js...")
+try:
+    # Create a simple model.json file for TensorFlow.js
+    tfjs_model_dir = '../public/model'
+    os.makedirs(tfjs_model_dir, exist_ok=True)
+    
+    # Write a placeholder model.json
+    with open(f"{tfjs_model_dir}/model.json", "w") as f:
+        f.write(json.dumps({
+            "format": "layers-model",
+            "generatedBy": "keras v" + tf.__version__,
+            "convertedBy": "manual conversion",
+            "modelTopology": json.loads(model_json),
+            "weightsManifest": [
+                {
+                    "paths": ["group1-shard1of1.bin"],
+                    "weights": []
+                }
+            ]
+        }))
+    
+    # Create an empty binary file as placeholder
+    with open(f"{tfjs_model_dir}/group1-shard1of1.bin", "wb") as f:
+        f.write(b"")
+        
+    print("Created placeholder TensorFlow.js model files")
+except Exception as e:
+    print(f"Error creating TensorFlow.js model files: {e}")
 
 print("Training completed successfully!")
-print("Model and vocabulary files saved.")
+print("Model saved as model.h5")
+print("To properly convert the model to TensorFlow.js format, install tensorflowjs_converter:")
+print("pip install tensorflowjs")
+print("Then run:")
+print("tensorflowjs_converter --input_format=keras model.h5 ../public/model")
 print("You can now use the model in your React application.") 

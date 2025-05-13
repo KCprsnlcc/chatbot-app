@@ -1,18 +1,41 @@
 /**
- * Simple bag-of-words vectorizer with a predefined vocabulary
+ * Tokenizer and vectorizer for the chatbot
+ * Uses the vocabulary from vocabulary.json
  */
 
-// Vocabulary of known words (this should match your training vocabulary)
-const vocabulary = [
-  "hello", "hi", "hey", "greetings", "morning", "afternoon", "evening",
-  "goodbye", "bye", "see", "later", "talk", "soon",
-  "thanks", "thank", "you", "appreciate", "grateful",
-  "help", "support", "problem", "issue", "question", "assist",
-  "weather", "temperature", "forecast", "rain", "sunny", "cloudy",
-  "name", "who", "are", "what", "your", "called",
-  "joke", "funny", "laugh", "humor", "tell",
-  "how", "going", "doing", "feel", "feeling"
-];
+// We'll load the vocabulary dynamically
+let vocabulary = [];
+let intentLabels = [];
+
+/**
+ * Load vocabulary and intent labels from vocabulary.json
+ * @returns {Promise<void>}
+ */
+export const loadVocabulary = async () => {
+  try {
+    const response = await fetch('/src/model/vocabulary.json');
+    if (!response.ok) {
+      // Try alternative path
+      const altResponse = await fetch('/model/vocabulary.json');
+      if (!altResponse.ok) {
+        throw new Error(`Failed to load vocabulary: ${altResponse.status}`);
+      }
+      const data = await altResponse.json();
+      vocabulary = data.vocabulary || [];
+      intentLabels = data.tags || [];
+    } else {
+      const data = await response.json();
+      vocabulary = data.vocabulary || [];
+      intentLabels = data.tags || [];
+    }
+    
+    console.log(`Loaded vocabulary with ${vocabulary.length} words and ${intentLabels.length} intents`);
+    return { vocabulary, intentLabels };
+  } catch (error) {
+    console.error('Error loading vocabulary:', error);
+    throw new Error('Failed to load vocabulary data');
+  }
+};
 
 /**
  * Preprocess text by removing punctuation, converting to lowercase, etc.
@@ -24,7 +47,7 @@ export const preprocessText = (text) => {
   const lowercaseText = text.toLowerCase();
   
   // Remove punctuation and special characters
-  const cleanText = lowercaseText.replace(/[^\w\s]/gi, '');
+  const cleanText = lowercaseText.replace(/[^\w\s']/gi, '');
   
   // Split into words
   return cleanText.split(/\s+/).filter(token => token.length > 0);
@@ -33,19 +56,21 @@ export const preprocessText = (text) => {
 /**
  * Convert text to a bag-of-words vector
  * @param {string} text - The input text
+ * @param {string[]} [customVocabulary] - Optional custom vocabulary to use
  * @returns {number[]} The bag-of-words vector
  */
-export const vectorizeText = (text) => {
+export const vectorizeText = (text, customVocabulary = null) => {
   const tokens = preprocessText(text);
+  const vocabToUse = customVocabulary || vocabulary;
   
   // Initialize vector with zeros
-  const vector = new Array(vocabulary.length).fill(0);
+  const vector = new Array(vocabToUse.length).fill(0);
   
   // Count occurrences of each word in the vocabulary
   for (const token of tokens) {
-    const index = vocabulary.indexOf(token);
+    const index = vocabToUse.indexOf(token);
     if (index !== -1) {
-      vector[index] += 1;
+      vector[index] = 1; // Use binary representation (presence/absence) instead of count
     }
   }
   
@@ -55,25 +80,15 @@ export const vectorizeText = (text) => {
 /**
  * Get the intent label from the predicted probabilities
  * @param {number[]} probabilities - Array of probabilities for each intent
+ * @param {string[]} [customLabels] - Optional custom intent labels to use
  * @returns {string} The predicted intent label
  */
-export const getIntentLabel = (probabilities) => {
-  // Map of intent indices to labels (must match your training model)
-  const intentLabels = [
-    "greeting",
-    "goodbye",
-    "thanks",
-    "help",
-    "weather",
-    "name",
-    "joke",
-    "how_are_you",
-    "unknown"
-  ];
+export const getIntentLabel = (probabilities, customLabels = null) => {
+  const labelsToUse = customLabels || intentLabels;
   
   // Find the index of the highest probability
   const maxIndex = probabilities.indexOf(Math.max(...probabilities));
   
   // Return the corresponding intent label
-  return intentLabels[maxIndex] || "unknown";
+  return labelsToUse[maxIndex] || "unknown";
 }; 

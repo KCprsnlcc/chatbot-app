@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import ChatMessage from './ChatMessage';
 import './Chatbot.css';
 import { loadModel, predictIntent } from '../model/loadModel';
-import { vectorizeText, getIntentLabel } from '../model/tokenizer';
-import { getResponse } from '../model/responses';
+import { vectorizeText, getIntentLabel, loadVocabulary } from '../model/tokenizer';
+import { getResponse, loadResponses } from '../model/responses';
 import ChatbotLogo from './ChatbotLogo';
 
 const Chatbot = () => {
@@ -21,26 +21,67 @@ const Chatbot = () => {
   const [model, setModel] = useState(null);
   const [modelLoaded, setModelLoaded] = useState(false);
   const [modelError, setModelError] = useState(null);
+  const [vocabularyLoaded, setVocabularyLoaded] = useState(false);
+  const [responsesLoaded, setResponsesLoaded] = useState(false);
   
   // Refs
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   
-  // Load the model on component mount
+  // Load all required data on component mount
   useEffect(() => {
-    const initModel = async () => {
+    const initChatbot = async () => {
       try {
-        const loadedModel = await loadModel();
-        setModel(loadedModel);
-        setModelLoaded(true);
+        // Load model, vocabulary and responses in parallel
+        const [loadedModel, vocabData, responseData] = await Promise.all([
+          loadModel().catch(error => {
+            console.error('Failed to load model:', error);
+            setModelError('Sorry, I had trouble loading my brain. Try refreshing the page.');
+            return null;
+          }),
+          loadVocabulary().catch(error => {
+            console.error('Failed to load vocabulary:', error);
+            return null;
+          }),
+          loadResponses().catch(error => {
+            console.error('Failed to load responses:', error);
+            return null;
+          })
+        ]);
+        
+        if (loadedModel) {
+          setModel(loadedModel);
+          setModelLoaded(true);
+        }
+        
+        if (vocabData) {
+          setVocabularyLoaded(true);
+        }
+        
+        if (responseData) {
+          setResponsesLoaded(true);
+        }
+        
+        // Check if everything is loaded successfully
+        if (loadedModel && vocabData && responseData) {
+          console.log('Chatbot initialized successfully!');
+        } else {
+          console.warn('Chatbot initialized with some missing components');
+        }
       } catch (error) {
-        console.error('Failed to load model:', error);
-        setModelError('Sorry, I had trouble loading my brain. Try refreshing the page.');
-        setModelLoaded(false);
+        console.error('Failed to initialize chatbot:', error);
+        setModelError('Sorry, I had trouble initializing. Try refreshing the page.');
       }
     };
     
-    initModel();
+    initChatbot();
+    
+    // Check for dark mode preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      setIsDarkMode(true);
+      document.body.classList.add('dark-mode');
+    }
   }, []);
 
   // Scroll to bottom of chat when messages update
@@ -97,7 +138,7 @@ const Chatbot = () => {
       
       let response;
       
-      if (modelLoaded && model) {
+      if (modelLoaded && model && vocabularyLoaded && responsesLoaded) {
         try {
           // Process input with the ML model
           const inputVector = vectorizeText(userInput);
@@ -162,6 +203,9 @@ const Chatbot = () => {
     }
   };
 
+  // Check if the chatbot is fully ready
+  const isChatbotReady = modelLoaded && vocabularyLoaded && responsesLoaded;
+
   return (
     <div className={`chatbot-container ${isDarkMode ? 'dark-theme' : ''}`}>
       <div className="chatbot-header">
@@ -222,11 +266,11 @@ const Chatbot = () => {
           onKeyDown={handleKeyDown}
           placeholder="Type your message here..."
           rows={1}
-          disabled={!modelLoaded && !modelError}
+          disabled={!isChatbotReady && !modelError}
         />
         <button 
           type="submit" 
-          disabled={(!modelLoaded && !modelError) || inputText.trim() === ''}
+          disabled={(!isChatbotReady && !modelError) || inputText.trim() === ''}
           className="send-button"
           aria-label="Send message"
         >
@@ -237,7 +281,7 @@ const Chatbot = () => {
         </button>
       </form>
       
-      {!modelLoaded && !modelError && (
+      {!isChatbotReady && !modelError && (
         <div className="model-loading">
           <div className="loading-spinner"></div>
           <p>Loading AI model...</p>

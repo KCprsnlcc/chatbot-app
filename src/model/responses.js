@@ -1,70 +1,85 @@
 /**
- * Map of intent labels to possible responses
- * Each intent has an array of potential responses, one of which is randomly selected
+ * Response handler for the chatbot
+ * Loads responses from intents.json
  */
-const responses = {
-  "greeting": [
-    "Hello! How can I help you today?",
-    "Hi there! What can I do for you?",
-    "Greetings! How may I assist you?",
-    "Hello! It's nice to see you!"
-  ],
-  
-  "goodbye": [
-    "Goodbye! Have a great day!",
-    "See you later! Take care!",
-    "Bye for now! Feel free to chat again anytime.",
-    "Farewell! It was nice chatting with you."
-  ],
-  
-  "thanks": [
-    "You're welcome! Is there anything else I can help with?",
-    "Happy to help! Let me know if you need anything else.",
-    "Anytime! Don't hesitate if you have more questions.",
-    "Glad I could assist! Anything else you'd like to know?"
-  ],
-  
-  "help": [
-    "I'm here to help! What do you need assistance with?",
-    "I'd be happy to help. Could you tell me more about what you need?",
-    "How can I assist you today? Please provide some details.",
-    "I'm at your service! What kind of help are you looking for?"
-  ],
-  
-  "weather": [
-    "I don't have access to real-time weather data. You might want to check a weather service for that information.",
-    "I can't check the weather for you, but a quick online search should give you that information.",
-    "Unfortunately, I don't have weather capabilities at the moment.",
-    "I'm not connected to weather services, but I'd be happy to help with something else!"
-  ],
-  
-  "name": [
-    "I'm ChatBot, your friendly AI assistant!",
-    "My name is ChatBot. What can I call you?",
-    "I go by ChatBot. What's your name?",
-    "I'm ChatBot, built to make conversations more engaging!"
-  ],
-  
-  "joke": [
-    "Why don't scientists trust atoms? Because they make up everything!",
-    "Why did the scarecrow win an award? Because he was outstanding in his field!",
-    "What did one wall say to the other wall? I'll meet you at the corner!",
-    "How does a penguin build its house? Igloos it together!"
-  ],
-  
-  "how_are_you": [
-    "I'm doing well, thanks for asking! How about you?",
-    "I'm great! How are you feeling today?",
-    "All systems operational! How's your day going?",
-    "I'm good! Thanks for checking in. How are you?"
-  ],
-  
-  "unknown": [
-    "I'm not sure I understand. Could you rephrase that?",
-    "I didn't quite catch that. Can you try again?",
-    "I'm still learning! Could you say that differently?",
-    "I'm not sure how to respond to that. Can you try asking something else?"
-  ]
+
+// Initialize responses object
+let responses = {};
+
+/**
+ * Load responses from intents.json
+ * @returns {Promise<Object>} The loaded responses
+ */
+export const loadResponses = async () => {
+  try {
+    // Try multiple possible paths for intents.json
+    let data = null;
+    let response = null;
+    
+    // Try paths in order of likelihood
+    const paths = [
+      '/data/intents.json',
+      '/src/data/intents.json',
+      '/public/data/intents.json',
+      '/intents.json'
+    ];
+    
+    for (const path of paths) {
+      try {
+        response = await fetch(path);
+        if (response.ok) {
+          console.log(`Successfully loaded intents from: ${path}`);
+          data = await response.json();
+          break;
+        }
+      } catch (pathError) {
+        console.warn(`Failed to load intents from ${path}: ${pathError.message}`);
+      }
+    }
+    
+    if (!data) {
+      throw new Error('Failed to load intents from any path');
+    }
+    
+    // Convert the intents array to a map of tag -> responses
+    responses = data.intents.reduce((acc, intent) => {
+      acc[intent.tag] = intent.responses;
+      return acc;
+    }, {});
+    
+    // Add a fallback for unknown intents
+    if (!responses.unknown) {
+      responses.unknown = [
+        "I'm not sure I understand. Could you rephrase that?",
+        "I didn't quite catch that. Can you try again?",
+        "I'm still learning! Could you say that differently?",
+        "I'm not sure how to respond to that. Can you try asking something else?"
+      ];
+    }
+    
+    console.log(`Loaded responses for ${Object.keys(responses).length} intents`);
+    return responses;
+  } catch (error) {
+    console.error('Error loading responses:', error);
+    
+    // Fallback to basic responses if loading fails
+    responses = {
+      "greeting": [
+        "Hello! How can I help you today?",
+        "Hi there! What can I do for you?"
+      ],
+      "goodbye": [
+        "Goodbye! Have a great day!",
+        "See you later! Take care!"
+      ],
+      "unknown": [
+        "I'm not sure I understand. Could you rephrase that?",
+        "I didn't quite catch that. Can you try again?"
+      ]
+    };
+    
+    return responses;
+  }
 };
 
 /**
