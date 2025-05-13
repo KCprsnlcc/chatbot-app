@@ -3,7 +3,7 @@ import ChatMessage from './ChatMessage';
 import './Chatbot.css';
 import { loadModel, predictIntent } from '../model/loadModel';
 import { vectorizeText, getIntentLabel, loadVocabulary } from '../model/tokenizer';
-import { getResponse, loadResponses } from '../model/responses';
+import { getResponse, loadResponses, getResponseForInput } from '../model/responses';
 import ChatbotLogo from './ChatbotLogo';
 
 const Chatbot = () => {
@@ -23,6 +23,8 @@ const Chatbot = () => {
   const [modelError, setModelError] = useState(null);
   const [vocabularyLoaded, setVocabularyLoaded] = useState(false);
   const [responsesLoaded, setResponsesLoaded] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [intentsData, setIntentsData] = useState(null);
   
   // Refs
   const messagesEndRef = useRef(null);
@@ -31,20 +33,32 @@ const Chatbot = () => {
   // Load all required data on component mount
   useEffect(() => {
     const initChatbot = async () => {
+      setIsInitializing(true);
+      let loadedModel = null;
+      let vocabData = null;
+      let responseData = null;
+      
       try {
-        // Load model, vocabulary and responses in parallel
-        const [loadedModel, vocabData, responseData] = await Promise.all([
+        // Load responses first as they're most important
+        responseData = await loadResponses().catch(error => {
+          console.error('Failed to load responses:', error);
+          return null;
+        });
+        
+        if (responseData) {
+          setResponsesLoaded(true);
+          setIntentsData(responseData.intents);
+        }
+        
+        // Then try to load model and vocabulary in parallel
+        [loadedModel, vocabData] = await Promise.all([
           loadModel().catch(error => {
             console.error('Failed to load model:', error);
-            setModelError('Sorry, I had trouble loading my brain. Try refreshing the page.');
+            setModelError('I encountered an issue loading my AI model, but I can still help with pattern matching.');
             return null;
           }),
           loadVocabulary().catch(error => {
             console.error('Failed to load vocabulary:', error);
-            return null;
-          }),
-          loadResponses().catch(error => {
-            console.error('Failed to load responses:', error);
             return null;
           })
         ]);
@@ -58,19 +72,20 @@ const Chatbot = () => {
           setVocabularyLoaded(true);
         }
         
-        if (responseData) {
-          setResponsesLoaded(true);
-        }
-        
         // Check if everything is loaded successfully
         if (loadedModel && vocabData && responseData) {
-          console.log('Chatbot initialized successfully!');
+          console.log('Chatbot initialized successfully with ML model!');
+        } else if (responseData) {
+          console.log('Chatbot initialized with pattern matching only!');
         } else {
-          console.warn('Chatbot initialized with some missing components');
+          console.warn('Chatbot initialization failed');
+          setModelError('Sorry, I had trouble initializing. Try refreshing the page.');
         }
       } catch (error) {
         console.error('Failed to initialize chatbot:', error);
         setModelError('Sorry, I had trouble initializing. Try refreshing the page.');
+      } finally {
+        setIsInitializing(false);
       }
     };
     
@@ -138,20 +153,25 @@ const Chatbot = () => {
       
       let response;
       
-      if (modelLoaded && model && vocabularyLoaded && responsesLoaded) {
+      if (responsesLoaded) {
+        // Use pattern matching as the primary method
+        response = getResponseForInput(userInput);
+        console.log(`Pattern matched response for: "${userInput}"`);
+      } else if (modelLoaded && model && vocabularyLoaded) {
+        // Fallback to ML model if pattern matching fails
         try {
-          // Process input with the ML model
           const inputVector = vectorizeText(userInput);
           const prediction = await predictIntent(model, inputVector);
           const intent = getIntentLabel(prediction);
           response = getResponse(intent);
+          
+          console.log(`ML model processed input: "${userInput}" → Intent: "${intent}"`);
         } catch (modelError) {
           console.error('Error in model prediction:', modelError);
-          // Use fallback response based on user input
           response = getFallbackResponse(userInput);
         }
       } else {
-        // Fallback to simple response if model isn't loaded
+        // Fallback to simple response if nothing is loaded
         if (modelError) {
           response = modelError;
         } else {
@@ -203,8 +223,8 @@ const Chatbot = () => {
     }
   };
 
-  // Check if the chatbot is fully ready
-  const isChatbotReady = modelLoaded && vocabularyLoaded && responsesLoaded;
+  // Check if the chatbot is ready to accept input
+  const isChatbotReady = responsesLoaded && !isInitializing;
 
   return (
     <div className={`chatbot-container ${isDarkMode ? 'dark-theme' : ''}`}>
@@ -266,11 +286,11 @@ const Chatbot = () => {
           onKeyDown={handleKeyDown}
           placeholder="Type your message here..."
           rows={1}
-          disabled={!isChatbotReady && !modelError}
+          disabled={isInitializing && !responsesLoaded}
         />
         <button 
           type="submit" 
-          disabled={(!isChatbotReady && !modelError) || inputText.trim() === ''}
+          disabled={(isInitializing && !responsesLoaded) || inputText.trim() === ''}
           className="send-button"
           aria-label="Send message"
         >
@@ -281,14 +301,14 @@ const Chatbot = () => {
         </button>
       </form>
       
-      {!isChatbotReady && !modelError && (
+      {isInitializing && !responsesLoaded && (
         <div className="model-loading">
           <div className="loading-spinner"></div>
           <p>Loading AI model...</p>
         </div>
       )}
       
-      {modelError && (
+      {modelError && !isChatbotReady && (
         <div className="model-error">
           <p>{modelError}</p>
           <button onClick={() => window.location.reload()}>Retry</button>

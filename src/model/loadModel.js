@@ -48,7 +48,8 @@ export const loadModel = async () => {
     const inputShape = vocabularyData.input_shape || vocabularyData.vocabulary.length;
     console.log(`Using input shape: ${inputShape}`);
     
-    let model;
+    let model = null;
+    let modelLoadError = null;
     
     try {
       // Try multiple paths for model.json
@@ -82,7 +83,7 @@ export const loadModel = async () => {
           }
           
           if (!modelLoaded) {
-            throw new Error('Failed to load model from any path');
+            modelLoadError = new Error('Failed to load model from any path');
           }
         }
       } else {
@@ -101,13 +102,32 @@ export const loadModel = async () => {
         }
         
         if (!modelLoaded) {
-          throw new Error('Failed to load model from any path');
+          modelLoadError = new Error('Failed to load model from any path');
         }
       }
       
-      console.log('Model loaded successfully', model);
+      // Test if the model is actually usable before returning it
+      if (model) {
+        try {
+          const testTensor = tf.zeros([1, inputShape]);
+          const testResult = model.predict(testTensor);
+          console.log('Model test prediction successful', await testResult.data());
+          testTensor.dispose();
+          testResult.dispose();
+        } catch (testError) {
+          console.error('Model test failed:', testError);
+          modelLoadError = new Error('Model loaded but failed test prediction');
+          model = null; // Reset model to create fallback
+        }
+      }
     } catch (modelError) {
-      console.error('Error loading model, creating a simple model instead:', modelError);
+      console.error('Error loading model:', modelError);
+      modelLoadError = modelError;
+    }
+    
+    // If model is still null, create a fallback model
+    if (!model) {
+      console.log('Creating fallback model due to error:', modelLoadError);
       
       // Create a simple model with the right input/output dimensions
       model = tf.sequential();
@@ -133,24 +153,24 @@ export const loadModel = async () => {
       });
       
       console.log('Created fallback model', model);
-    }
-    
-    // Test if the model is actually usable
-    try {
-      const testTensor = tf.zeros([1, inputShape]);
-      const testResult = model.predict(testTensor);
-      console.log('Model test prediction successful', await testResult.data());
-      testTensor.dispose();
-      testResult.dispose();
-    } catch (testError) {
-      console.error('Model test failed:', testError);
-      throw new Error('Model loaded but failed test prediction');
+      
+      // Test if the fallback model is actually usable
+      try {
+        const testTensor = tf.zeros([1, inputShape]);
+        const testResult = model.predict(testTensor);
+        console.log('Fallback model test prediction successful', await testResult.data());
+        testTensor.dispose();
+        testResult.dispose();
+      } catch (testError) {
+        console.error('Fallback model test failed:', testError);
+        throw new Error('Failed to create a working fallback model');
+      }
     }
     
     return model;
   } catch (error) {
-    console.error('Error loading model:', error);
-    throw new Error('Failed to load the chatbot model');
+    console.error('Fatal error in model loading:', error);
+    throw new Error('Failed to load or create a chatbot model');
   }
 };
 
