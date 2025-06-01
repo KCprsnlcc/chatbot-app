@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Chatbot from './components/Chatbot';
 import ChatbotLogo from './components/ChatbotLogo';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +40,7 @@ function App() {
       <footer>
         <p>AI Chatbot with Intent Classification - Client-Side ML</p>
       </footer>
+      <Analytics />
     </div>
   );
 }
