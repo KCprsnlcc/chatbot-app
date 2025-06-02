@@ -32,6 +32,12 @@ const defaultResponses = {
     "What would you like help with today?",
     "I'm here to assist you. What do you need?"
   ],
+  "code_analysis": [
+    "I can analyze that code for you. Please paste the code you'd like me to examine.",
+    "I'd be happy to help analyze your code. What specifically would you like to know about it?",
+    "I can take a look at that code. Please share it and I'll explain what it does.",
+    "I can help you understand code. Please share the snippet you'd like me to analyze."
+  ],
   "unknown": [
     "I'm not sure I understand. Could you rephrase that?",
     "I didn't quite catch that. Can you try again?",
@@ -45,7 +51,8 @@ const defaultPatterns = {
   "greeting": ["hello", "hi", "hey", "greetings", "good morning", "good afternoon", "good evening"],
   "goodbye": ["bye", "goodbye", "see you", "talk to you later", "farewell"],
   "thanks": ["thanks", "thank you", "appreciate it", "thank you very much"],
-  "help": ["help", "assist", "support", "need help", "can you help"]
+  "help": ["help", "assist", "support", "need help", "can you help"],
+  "code_analysis": ["scan code", "analyze code", "explain code", "read code", "understand code", "what is this code", "what does this code do", "review code", "check code"]
 };
 
 /**

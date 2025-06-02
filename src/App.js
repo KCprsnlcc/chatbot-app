@@ -32,7 +32,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>AI Chatbot Assistant</h1>
-        <p>Powered by TensorFlow.js</p>
+        <p>Powered by TensorFlow.js & Ollama</p>
       </header>
       <main>
         <Chatbot />
